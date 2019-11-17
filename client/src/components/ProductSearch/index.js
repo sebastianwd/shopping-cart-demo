@@ -1,4 +1,3 @@
-import { ProductList } from "./ProductList";
-import { Search } from "./Search";
+import { ProductSearch } from "./ProductSearch";
 
-export { ProductList, Search };
+export { ProductSearch };

@@ -1,7 +1,7 @@
-import { ProductList, Search } from "../components/ProductSearch";
+import { ProductSearch } from "../components/ProductSearch";
 import styled from "styled-components";
 import React from "react";
-import { Cart } from "../components/Cart/Cart";
+import { Prices } from "../components/Prices/Prices";
 
 const Wrapper = styled.main`
   width: 100%;
@@ -24,6 +24,7 @@ const Container = styled.div`
   @media (max-width: 768px) {
     padding-top: 1rem;
     flex-direction: column;
+    height: auto;
   }
 `;
 const Col = styled.div`
@@ -38,11 +39,10 @@ const Home = () => {
     <Wrapper>
       <Container>
         <Col>
-          <Search></Search>
-          <ProductList></ProductList>
+          <ProductSearch></ProductSearch>
         </Col>
         <Col>
-          <Cart></Cart>
+          <Prices></Prices>
         </Col>
       </Container>
     </Wrapper>

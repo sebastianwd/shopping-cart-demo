@@ -35,6 +35,7 @@ button {
   padding: 0;
   border: none;
   background: none;
+  cursor: pointer;
 }
   *, *::after, *::before {
   margin: 0;

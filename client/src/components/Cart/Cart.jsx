@@ -1,112 +1,37 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
-import truckIcon from "../../assets/img/truck.svg";
+import emptyCartIcon from "../../assets/img/empty-cart.svg";
+import { CartContext } from "../../shared/context/CartContext";
 
-export const Cart = () => (
-  <Wrapper>
-    <Title>
-      <TruckIcon></TruckIcon>
-      <InfoButton>Buy now and get it by 05/24/19</InfoButton>
-    </Title>
-    <Container>
-      <Labels>
-        <H5>
-          Products <Price> 234</Price>
-        </H5>
-        <H5 highlight>
-          Shipping Cost<Price> 234</Price>
-        </H5>
-        <H5>
-          Taxes<Price> 234</Price>
-        </H5>
-        <br></br>
-        <H5 bold>
-          Total<Price highlight> 234</Price>
-        </H5>
-      </Labels>
-    </Container>
-    <SubmitButton>Complete order</SubmitButton>
-  </Wrapper>
-);
+export const Cart = () => {
+  const [cart, setCart] = useContext(CartContext);
 
-const Container = styled.div`
-  width: 100%;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  background-color: white;
-  width: 75%;
-  height: auto;
-  margin: 1rem 0;
-  min-height: 180px;
-`;
+  return (
+    <>
+      <Icon src={emptyCartIcon}></Icon>
+      <H4>Your cart is empty</H4>
+      <H5>Seems like you haven’t chosen what to buy...</H5>
+    </>
+  );
+};
 
-const InfoButton = styled.button`
-  border-radius: 4px;
-  font-size: 16px;
-  line-height: 24px;
-  display: inline-flex;
-  padding: 0.2rem 0.6rem;
-`;
-
-const SubmitButton = styled.button`
-  background: #ff8000;
-  border-radius: 4px;
-  text-transform: uppercase;
-  padding: 1rem 1.2rem;
-  width: 75%;
-  color: white;
+const H4 = styled.h4`
+  font-style: normal;
   font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
-`;
-
-const TruckIcon = styled.span`
-  background-image: url(${truckIcon});
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  height: 1.3em;
-  width: 1.3em;
-  display: inline-flex;
-`;
-
-const Title = styled.div`
-  display: flex;
-  align-items: center;
-  padding-top: 3.5rem;
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  max-height: 800px;
-`;
-
-const Labels = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: auto;
-  flex-basis: 100%;
-  padding: 0 1.5rem;
+  font-size: 21px;
+  line-height: 32px;
+  text-align: center;
 `;
 
 const H5 = styled.h5`
   font-style: normal;
-  font-weight: ${props => (props.bold ? "600" : "normal")};
+  font-weight: normal;
   font-size: 16px;
-  padding: 0.2rem 0;
   line-height: 24px;
-  background-color: ${props => (props.highlight ? "yellow" : "transparent")};
+  text-align: center;
 `;
 
-const Price = styled.span`
-  float: right;
-  color: ${props => (props.highlight ? "red" : "black")};
-  ::before {
-    content: "$";
-  }
+const Icon = styled.img`
+  height: 50px;
+  width: 50px;
 `;
