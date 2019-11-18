@@ -45,6 +45,6 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname, "client/build", "index.html"));
   });
 }
-db.sequelize.sync({ force: true }).then(() => {
+db.sequelize.sync({ alter: true }).then(() => {
   app.listen(PORT, () => console.log(`Server listening on port ${PORT}...`));
 });
