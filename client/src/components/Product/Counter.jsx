@@ -5,26 +5,51 @@ import { useCounter } from "../../shared/hooks/useCounter";
 import Icon from "../../shared/icons";
 import useOnClickOutside from "../../shared/hooks/useOnClickOutside";
 import { CartContext } from "../../shared/context/CartContext";
-import { useApolloClient } from "@apollo/react-hooks";
+import { useApolloClient, useMutation } from "@apollo/react-hooks";
+import gql from "graphql-tag";
 
 const DEFAULT_MAXIMUM = 5;
 const DEFAULT_MINIMUM = 0;
 
-export const Counter = ({ product }) => {
+/*  @client doesnt do any type of validation  https://github.com/apollographql/apollo-link-state/issues/205 */
+const ADD_TO_CART = gql`
+  mutation AddToCart($product: Product!) {
+    addToCart(product: $product) @client
+  }
+`;
+
+const ADD_MANY_TO_CART = gql`
+  mutation AddManyToCart($product: Product!, $quantity: Int!) {
+    addManyToCart(product: $product, quantity: $quantity) @client
+  }
+`;
+const REMOVE_ONE_FROM_CART = gql`
+  mutation RemoveOneFromCart($product: Product!) {
+    removeOneFromCart(product: $product) @client
+  }
+`;
+
+export const Counter = ({ product, quantity = null }) => {
   const [isActive, setIsActive] = useState(false);
   const counterRef = useRef();
-  const [cart, setCart] = useContext(CartContext);
+
   const { count, increment, decrement, setCount } = useCounter(
-    0,
+    quantity || 0,
     DEFAULT_MINIMUM,
     DEFAULT_MAXIMUM
   );
 
-  const [value, setValue] = useState(count);
+  const [value, setValue] = useState(quantity || count);
+
+  const [addToCart] = useMutation(ADD_TO_CART);
+  const [addManyToCart] = useMutation(ADD_MANY_TO_CART);
+  const [removeOneFromCart] = useMutation(REMOVE_ONE_FROM_CART, {
+    variables: { product }
+  });
 
   useOnClickOutside(counterRef, () => {
     setIsActive(false);
-    addToCart();
+    addManyToCart({ variables: { product, quantity: value } });
   });
 
   useEffect(() => {
@@ -43,10 +68,19 @@ export const Counter = ({ product }) => {
       setCount(parseInt(e.currentTarget.value));
     }
   };
-  const addToCart = () => {
-    setCart(cart => {
-      return [...cart, product];
-    });
+
+  const removeQuantity = () => {
+    const wasRemoved = decrement();
+    if (wasRemoved) {
+      removeOneFromCart();
+    }
+  };
+
+  const addQuantity = () => {
+    const wasAdded = increment();
+    if (wasAdded) {
+      addToCart({ variables: { product } });
+    }
   };
 
   return (
@@ -60,7 +94,7 @@ export const Counter = ({ product }) => {
         <>
           <Knob ref={counterRef}>
             <Icon.Minus
-              onClick={decrement}
+              onClick={removeQuantity}
               style={{
                 height: "24px",
                 width: "24px",
@@ -73,7 +107,7 @@ export const Counter = ({ product }) => {
               type={"text"}
             />
             <Icon.Plus
-              onClick={increment}
+              onClick={addQuantity}
               style={{
                 height: "24px",
                 width: "24px",
@@ -133,7 +167,7 @@ const IconPlus = styled.span`
 
 const QuantityInput = styled.input`
   font-size: 1.4rem;
-  width: 100%;
+  width: 80%;
   -webkit-appearance: none;
   background-color: transparent;
   color: white;

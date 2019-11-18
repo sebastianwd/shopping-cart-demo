@@ -15,6 +15,9 @@ type Order {
     searchProducts(name: String): [Product!]!,
     products(name: String): [Product!]!
   }
+  type Mutation {
+    insertOrder: Order
+  }
 `);
 
 module.exports = schema;

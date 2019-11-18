@@ -1,11 +1,20 @@
 import React from "react";
 
 import styled from "styled-components";
-import { HeuristicFragmentMatcher } from "apollo-boost";
 import { Counter } from "./Counter";
+import { useQuery } from "@apollo/react-hooks";
+import { GET_CART_ITEMS } from "../../api/resolvers";
 
-export const Product = ({ product }) => {
+export const Product = ({ product, quantity = null }) => {
   const { name, image, price, id } = product;
+
+  const { data } = useQuery(GET_CART_ITEMS);
+  if (data && data.cart.length > 0) {
+    let findProduct = data.cart.find(item => item.id === id);
+    if (findProduct) {
+      quantity = findProduct.quantity;
+    }
+  }
 
   return (
     <>
@@ -22,7 +31,7 @@ export const Product = ({ product }) => {
           <ProductName>{name} </ProductName>
           <PriceTag>{price}</PriceTag>
         </div>
-        <Counter product={product}></Counter>
+        <Counter product={product} quantity={quantity}></Counter>
       </ProductItem>
     </>
   );

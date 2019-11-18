@@ -6,6 +6,7 @@ import { GlobalStyle } from "./shared/globalStyles";
 import { ApolloProvider } from "@apollo/react-hooks";
 import client from "./api/client";
 import { CartProvider } from "./shared/context/CartContext";
+import ThankYou from "./pages/ThankYou";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <ApolloProvider client={client}>
         <Router style={{ height: "100%" }}>
           <Home path='/' />
+          <ThankYou path='/thankyou' />
         </Router>
       </ApolloProvider>
     </CartProvider>

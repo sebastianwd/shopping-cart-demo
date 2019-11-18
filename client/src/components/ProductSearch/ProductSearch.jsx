@@ -5,6 +5,7 @@ import { useLazyQuery } from "@apollo/react-hooks";
 import { useDebouncedCallback } from "use-debounce";
 import Cart from "../Cart";
 import ProductItem from "../Product";
+import { GET_CART_ITEMS } from "../../api/resolvers";
 
 const SEARCH_PRODUCTS = gql`
   query searchProducts($name: String!) {
@@ -40,7 +41,7 @@ export const ProductSearch = () => {
     /* otherwise execute search */
     setIsEmpty(false);
     searchProducts({ variables: { name: value } });
-  }, 200);
+  }, 100);
 
   return (
     <>

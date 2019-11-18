@@ -36,6 +36,9 @@ button {
   border: none;
   background: none;
   cursor: pointer;
+  &:disabled{
+    cursor: not-allowed;
+  }
 }
   *, *::after, *::before {
   margin: 0;
