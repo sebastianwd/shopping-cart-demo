@@ -9,6 +9,7 @@ const expressPlayground = require("graphql-playground-middleware-express")
 var db = require("./src/models/index");
 var schema = require("./src/graphql/schema");
 var root = require("./src/graphql/resolvers");
+const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
