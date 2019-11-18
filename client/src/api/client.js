@@ -28,7 +28,7 @@ const cache = new InMemoryCache({
   }
 });
 const client = new ApolloClient({
-  uri: "https://shp-cart.herokuapp.com/graphql",
+  uri: "http://localhost:5000/graphql",
   resolvers: resolvers
 });
 
